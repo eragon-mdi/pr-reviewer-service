@@ -1,0 +1,58 @@
+linters-settings:
+  errcheck:
+    check-type-assertions: true
+    check-blank: true
+  gosimple:
+    checks: ["all"]
+  staticcheck:
+    checks: ["all"]
+  unused:
+    check-exported: true
+  gosec:
+    severity: medium
+  misspell:
+    locale: US
+
+linters:
+  enable:
+    - errcheck
+    - gofmt
+    - goimports
+    - govet
+    - gosimple
+    - staticcheck
+    - unused
+    - misspell
+    - ineffassign
+    - gosec
+
+issues:
+  exclude-use-default: false
+  max-issues-per-linter: 0
+  max-same-issues: 0
+  exclude-rules:
+    - path: _test\.go
+      linters:
+        - errcheck
+        - gosec
+    - path: pkg/validator/validator\.go
+      linters:
+        - errcheck
+    - path: internal/repository/sql/.*\.go
+      text: "Error return value of.*Close.*is not checked"
+      linters:
+        - errcheck
+    - path: internal/repository/sql/.*\.go
+      text: "Error return value of.*Rollback.*is not checked"
+      linters:
+        - errcheck
+    - path: internal/transport/http/rest/http_err_handler\.go
+      linters:
+        - errcheck
+    - path: internal/service/members/reasign_member\.go
+      linters:
+        - gosec
+    - path: .*/mocks.*/.*\.go
+      linters:
+        - errcheck
+
