@@ -224,7 +224,7 @@ func TestUsers_GetUserReviews_Success(t *testing.T) {
 	createPRReq := CreatePullRequestRequest{
 		PullRequestID:   prID,
 		PullRequestName: "Test PR",
-		AuthorID:       authorID,
+		AuthorID:        authorID,
 	}
 
 	resp2, err := CreatePullRequest(createPRReq)
@@ -311,7 +311,7 @@ func TestPullRequests_Create_Success(t *testing.T) {
 	req := CreatePullRequestRequest{
 		PullRequestID:   prID,
 		PullRequestName: "Test PR",
-		AuthorID:       authorID,
+		AuthorID:        authorID,
 	}
 
 	resp2, err := CreatePullRequest(req)
@@ -358,7 +358,7 @@ func TestPullRequests_Create_Duplicate(t *testing.T) {
 	req := CreatePullRequestRequest{
 		PullRequestID:   prID,
 		PullRequestName: "Test PR",
-		AuthorID:       authorID,
+		AuthorID:        authorID,
 	}
 
 	resp2, err := CreatePullRequest(req)
@@ -414,7 +414,7 @@ func TestPullRequests_Merge_Success(t *testing.T) {
 	createPRReq := CreatePullRequestRequest{
 		PullRequestID:   prID,
 		PullRequestName: "Test PR",
-		AuthorID:       authorID,
+		AuthorID:        authorID,
 	}
 
 	resp2, err := CreatePullRequest(createPRReq)
@@ -475,7 +475,7 @@ func TestPullRequests_Merge_Idempotent(t *testing.T) {
 	createPRReq := CreatePullRequestRequest{
 		PullRequestID:   prID,
 		PullRequestName: "Test PR",
-		AuthorID:       authorID,
+		AuthorID:        authorID,
 	}
 
 	resp2, err := CreatePullRequest(createPRReq)

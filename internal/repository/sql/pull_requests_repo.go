@@ -287,7 +287,7 @@ func (rtx *reassignTx) AssignMember(ctx context.Context, prId domain.PrId, newMe
 	return pr, nil
 }
 
-func (rtx *reassignTx) getPullRequestReviewers(ctx context.Context, prId domain.PrId) (domain.Members, error) {
+func (rtx *reassignTx) getPullRequestReviewers(_ context.Context, prId domain.PrId) (domain.Members, error) {
 	rows, err := rtx.s.Query(queries.GetPullRequestReviewers, prId.String())
 	if err != nil {
 		return nil, errors.Wrap(err, ErrFailedQuery)

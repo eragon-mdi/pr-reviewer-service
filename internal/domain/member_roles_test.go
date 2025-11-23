@@ -63,7 +63,7 @@ func TestMemberRoleFromString(t *testing.T) {
 		{
 			name: "unknown string",
 			s:    "unknown",
-			want: MemberStatusDefault, // Note: это баг в коде, но тестируем как есть
+			want: MemberStatusDefault,
 		},
 		{
 			name: "empty string",

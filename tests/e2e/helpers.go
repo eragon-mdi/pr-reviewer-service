@@ -31,7 +31,7 @@ func startPostgres(ctx context.Context) (testcontainers.Container, string, error
 		},
 		WaitingFor: wait.ForAll(
 			wait.ForLog("database system is ready to accept connections"),
-			wait.ForListeningPort(dbPort + "/tcp"),
+			wait.ForListeningPort(dbPort+"/tcp"),
 		).WithDeadline(30 * time.Second),
 	}
 
@@ -115,4 +115,3 @@ func extractPort(dsn string) string {
 	}
 	return "5432"
 }
-

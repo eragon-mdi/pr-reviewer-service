@@ -1,6 +1,3 @@
--- Migration: Create pull_requests table
--- Pull requests represent code review requests with status tracking and optimistic locking
-
 CREATE TABLE IF NOT EXISTS pull_requests (
     id SERIAL PRIMARY KEY,
     uuid UUID NOT NULL UNIQUE,
@@ -16,15 +13,11 @@ CREATE TABLE IF NOT EXISTS pull_requests (
         FOREIGN KEY (status_id) REFERENCES statuses(id) ON DELETE RESTRICT
 );
 
--- Index for fast lookup by UUID (most common query pattern)
 CREATE INDEX IF NOT EXISTS idx_pull_requests_uuid ON pull_requests(uuid);
 
--- Index for filtering by author
 CREATE INDEX IF NOT EXISTS idx_pull_requests_author_id ON pull_requests(author_id);
 
--- Index for filtering by status
 CREATE INDEX IF NOT EXISTS idx_pull_requests_status_id ON pull_requests(status_id);
 
--- Index for filtering by created_at (for sorting)
 CREATE INDEX IF NOT EXISTS idx_pull_requests_created_at ON pull_requests(created_at);
 

@@ -15,19 +15,17 @@ import (
 )
 
 var (
-	serverPort     string
+	serverPort        string
 	postgresContainer testcontainers.Container
-	serverProcess  *exec.Cmd
-	serverDSN      string
+	serverProcess     *exec.Cmd
+	serverDSN         string
 )
 
 func TestMain(m *testing.M) {
 	ctx := context.Background()
 
-	// Убираем смайлики из testcontainers
 	os.Setenv("TESTCONTAINERS_LOG_LEVEL", "WARN")
 
-	// Find free port
 	listener, err := net.Listen("tcp", ":0")
 	if err != nil {
 		fmt.Printf("Failed to find free port: %v\n", err)
@@ -37,10 +35,8 @@ func TestMain(m *testing.M) {
 	baseURLStr := "http://localhost:" + serverPort
 	listener.Close()
 
-	// Инициализируем baseURL в requests.go
 	setBaseURL(baseURLStr)
 
-	// Start PostgreSQL
 	container, dsn, err := startPostgres(ctx)
 	if err != nil {
 		fmt.Printf("Failed to start postgres: %v\n", err)
@@ -49,21 +45,18 @@ func TestMain(m *testing.M) {
 	postgresContainer = container
 	serverDSN = dsn
 
-	// Run migrations
 	if err := runMigrations(dsn); err != nil {
 		fmt.Printf("Failed to run migrations: %v\n", err)
 		cleanup()
 		os.Exit(1)
 	}
 
-	// Start server
 	if err := startServer(dsn); err != nil {
 		fmt.Printf("Failed to start server: %v\n", err)
 		cleanup()
 		os.Exit(1)
 	}
 
-	// Wait for server to be ready
 	time.Sleep(3 * time.Second)
 	if !waitForServer() {
 		fmt.Println("Server failed to start")
@@ -71,10 +64,8 @@ func TestMain(m *testing.M) {
 		os.Exit(1)
 	}
 
-	// Run tests
 	code := m.Run()
 
-	// Cleanup
 	cleanup()
 
 	os.Exit(code)
@@ -89,7 +80,6 @@ func startServer(dsn string) error {
 	port := extractPort(dsn)
 	host := "localhost"
 
-	// Set environment variables
 	env := os.Environ()
 	env = append(env, fmt.Sprintf("STORAGES_POSTGRES_HOST=%s", host))
 	env = append(env, fmt.Sprintf("STORAGES_POSTGRES_PORT=%s", port))
@@ -133,7 +123,6 @@ func waitForServer() bool {
 
 func cleanup() {
 	if serverProcess != nil && serverProcess.Process != nil {
-		// Try graceful shutdown first
 		if err := serverProcess.Process.Signal(os.Interrupt); err == nil {
 			done := make(chan error, 1)
 			go func() {
@@ -142,12 +131,10 @@ func cleanup() {
 			select {
 			case <-done:
 			case <-time.After(2 * time.Second):
-				// Force kill if graceful shutdown didn't work
 				_ = serverProcess.Process.Kill()
 				<-done
 			}
 		} else {
-			// If signal failed, just kill
 			_ = serverProcess.Process.Kill()
 			_ = serverProcess.Wait()
 		}
@@ -161,4 +148,3 @@ func cleanup() {
 		postgresContainer = nil
 	}
 }
-

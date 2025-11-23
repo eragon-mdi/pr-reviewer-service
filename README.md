@@ -6,7 +6,7 @@
 
 1. Скопируйте `example.env` в `.env`:
 ```bash
-cp example.env .env
+cp example.env .env # специально ради вашего условия запсуком одной командой, убрал из gitignore dotenv файл, поэтому этот шаг можно пропустить
 ```
 
 2. Запустите сервис:
@@ -50,13 +50,13 @@ docker compose up
 
 ## Дополнительные задания
 
-- ✅ **E2E тесты**: реализованы в `tests/e2e/` с использованием testcontainers-go для изоляции тестов
-- ✅ **Линтер**: настроен `golangci-lint` с базовым набором правил (`.golangci.yml`)
+- **E2E тесты**: реализованы в `tests/e2e/` с использованием testcontainers-go для изоляции тестов
+- **Линтер**: настроен `golangci-lint` с базовым набором правил (`.golangci.yml`)
 
 ## Команды разработки
 
 ```bash
-make test              # unit тесты
+make test             # unit тесты
 make test-e2e         # e2e тесты
 make test-coverage    # покрытие кода
 make lint             # проверка линтером
